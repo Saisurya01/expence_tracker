@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expence Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="tracker.css">
+</head>
+<body>
+    <div class="header">
+        <p class="m-0"> Expence <br>tracker <img src="expenses.png" alt="expenses"width="35px" height="35px"></p> 
+    </div>
+    <div class="input-form" >
+        <div class="form-floating " id="inputs">
+        <input type="date" class="form-control dateinput" id="floatingInput" placeholder="">
+        <label for="floatingInput">Date</label>
+        </div>
+        <div class="form-floating " id="inputs">
+        <input type="number" class="form-control amountinput" id="floatingInput" placeholder="">
+        <label for="floatingInput">Amount</label>
+        </div>
+        <select class="form-select transtiontype " id="inputs" aria-label="Default select example">
+        <option selected>Transtion Type</option>
+        <option value="Income">Income</option>
+        <option value="Expance">Expance</option>
+        </select>
+        <button class="btn" id="add-btn" onclick="addrow()">+</button>
+
+    </div>
+        <div class="cards mt-4">
+            <div class="card" >
+        <div class="card-body">
+            <h5 class="card-title mb-2">Totel Income <img src="wallet.png" alt="" width="35px"></h5>
+            <h1 class="m-0"><img src="rupee.png" alt="" width="35px"> <span id="totalincome" class="m-0">0</span></h1>
+        </div>
+        </div>
+        <div class="card" >
+        <div class="card-body">
+           <h5 class="card-title mb-2">Totel Expences <img src="expences.png" alt="" width="40px"></h5>
+            <h1 class="m-0"><img src="rupee.png" alt="" width="35px"> <span id="totalexpence" class="m-0">0</span></h1>
+        </div>
+        </div>
+        <div class="card" >
+        <div class="card-body">
+           <h5 class="card-title mb-2">Balence <img src="profit.png" alt="" width="40px"></h5>
+            <h1 class="m-0"><img src="rupee.png" alt="" width="35px"> <span id="balence" class="m-0">0</span></h1>
+        </div>
+        </div>
+    </div>
+    <table class="transtion-table mt-3" cellspacing="0" cellpadding="8px" id="table">
+        <tr id="header-row">
+            <th>Amount</th>
+            <th>Transation Type</th>
+            <th>Transation Date</th>
+            <th>Action</th>
+        </tr>
+    </table>
+
+    <script>
+        let table=document.getElementById('table');
+
+        function addrow(){
+            let date=document.getElementsByClassName('dateinput')[0].value;
+            let amount=document.getElementsByClassName("amountinput")[0].value;
+            let transtiontype=document.getElementsByClassName("transtiontype")[0].value;
+            
+            if(date=="" || amount=="" || transtiontype=="Transtion Type"){
+                alert("Please fill all the details");
+                return;
+            }
+            else{
+                let row=document.createElement("tr");
+            
+            let amountdata=document.createElement("td");
+            amountdata.innerText=amount;
+            
+            let transtiontypedata=document.createElement("td");
+            transtiontypedata.innerText=transtiontype;
+
+            let datedata=document.createElement("td");
+            datedata.innerText=date;
+
+            let bincell=document.createElement("td");
+            let binbutton=document.createElement("button");
+            let binimg=document.createElement("img");
+            binimg.src="delete.png";
+            binimg.width="35";
+            bincell.appendChild(binbutton);
+            binbutton.appendChild(binimg);
+            binbutton.classList.add("btn","btn-sm","btn-danger");
+            binbutton.onclick=()=>deleterow(row);
+
+            row.appendChild(amountdata);
+            row.appendChild(transtiontypedata);
+            row.appendChild(datedata);
+            row.appendChild(bincell);
+            table.appendChild(row);
+
+            let totalincome=document.getElementById("totalincome").innerText;
+            let totalexpence=document.getElementById("totalexpence").innerText;
+            let balence=document.getElementById("balence").innerText;
+
+            if(transtiontype=="Income"){
+                if(totalincome==0){
+                    document.getElementById("totalincome").innerText=amount;
+                }
+                else{
+                   document.getElementById("totalincome").innerText=parseInt(totalincome)+parseInt(amount);
+                }
+                if(balence==0){
+                    document.getElementById("balence").innerText=amount;
+                }
+                else{
+                   document.getElementById("balence").innerText=parseInt(balence)+parseInt(amount);
+                }
+            }
+
+             if(transtiontype=="Expance"){
+                if(totalexpence==0){
+                    document.getElementById("totalexpence").innerText=amount;
+                }
+                else{
+                   document.getElementById("totalexpence").innerText=parseInt(totalexpence)+parseInt(amount);
+                }
+                  if(balence==0){
+                    document.getElementById("balence").innerText=amount;
+                }
+                else{
+                   document.getElementById("balence").innerText=parseInt(balence)-parseInt(amount);
+                }
+            }
+
+            }
+            
+             
+        }
+
+        function deleterow(row){
+            row.remove();
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+</body>
+</html>
